@@ -26,7 +26,20 @@ async function run() {
 			const result = await taskCollection.insertOne(doc);
 			res.send(result);
 		})
-		
+		app.get('/task/:email', async(req, res) => {
+			const email = req.params.email;
+			const query = {email: email};
+			const result = await taskCollection.find(query).toArray();
+			res.send(result);
+		})
+        app.delete('/task/:email', async(req, res) => {
+			const email = req.params.email;
+			const docs = req.body;
+			const id = docs.id;
+			const query = {email: email, _id: ObjectId(id)};
+			const result = await taskCollection.deleteOne(query);
+			res.send(result);
+		})
     }
     finally{
     
