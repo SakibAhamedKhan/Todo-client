@@ -19,7 +19,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
-        console.log('MongoDb connected');
+        const taskCollection = client.db("db_to_do").collection("task");
+
+        app.post('/addTask', async(req, res) => {
+			const doc = req.body;
+			const result = await taskCollection.insertOne(doc);
+			res.send(result);
+		})
+		
     }
     finally{
     
