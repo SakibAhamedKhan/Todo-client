@@ -40,6 +40,20 @@ async function run() {
 			const result = await taskCollection.deleteOne(query);
 			res.send(result);
 		})
+        app.put('/task/:email', async(req, res) => {
+			const email = req.params.email;
+			const docs = req.body;
+			const id = docs.id;
+			const filter = {email: email, _id: ObjectId(id)};
+			const options = { upsert: true };
+			const updateDoc = {
+				$set: {
+					complete:true
+				},
+			  };
+			const result = await taskCollection.updateOne(filter, updateDoc, options);
+			res.send(result);
+		})
     }
     finally{
     
